@@ -48,32 +48,82 @@
 			<h1 class="text-white">Reports</h1>
 		</div>
 	</div>
-	<div class="container row mt-4 mb-4">
-		<div class="col-6">
-			<span>Title:</span>
-			<input class="border" value="@Model.Title" readonly> </input>
-		</div>
-		<div class="col-6">
-			<select class="container">
+	<form asp-action="PrintPdf" asp-controller="Reports" method="post">
+		<div class="container row mt-4 mb-4">
+			@if (Model.Id != null && Model.Id.Count > 0)
+			{
+				@for (int i = 0; i < Model.Id.Count; i++)
+				{
+					<input type="hidden" name="Id[@i]" value="@Model.Id[i]" />
+				}
+			}
+			@if (Model.FirstName != null && Model.FirstName.Count > 0)
+			{
+				@for (int i = 0; i < Model.FirstName.Count; i++)
+				{
+					<input type="hidden" name="FirstName[@i]" value="@Model.FirstName[i]" />
+				}
+			}
+			@if (Model.LastName != null && Model.LastName.Count > 0)
+			{
+				@for (int i = 0; i < Model.LastName.Count; i++)
+				{
+					<input type="hidden" name="LastName[@i]" value="@Model.LastName[i]" />
+				}
+			}
+			@if (Model.PostalCode != null && Model.PostalCode.Count > 0)
+			{
+				@for (int i = 0; i < Model.PostalCode.Count; i++)
+				{
+					<input type="hidden" name="PostalCode[@i]" value="@Model.PostalCode[i]" />
+				}
+			}
+			@if (Model.Tel != null && Model.Tel.Count > 0)
+			{
+				@for (int i = 0; i < Model.Tel.Count; i++)
+				{
+					<input type="hidden" name="Tel[@i]" value="@Model.Tel[i]" />
+				}
+			}
+			@if (Model.Email != null && Model.Email.Count > 0)
+			{
+				@for (int i = 0; i < Model.Email.Count; i++)
+				{
+					<input type="hidden" name="Email[@i]" value="@Model.Email[i]" />
+				}
+			}
+			<div class="col-6">
+				<span>Title:</span>
+				<input class="border" name="Title" value="@Model.Title" readonly />
+			</div>
+			<div class="col-6">
 				@if (Model.combinedList != null)
 				{
-
-					@foreach (object item in Model.combinedList)
+					@for (int i = 0; i < Model.combinedList.Count; i++)
 					{
-						<option hidden>Reports is here</option>
-						<option>@item</option>
+						<input type="hidden" name="combinedList[@i]" value="@Model.combinedList[i]" />
 					}
+					<select class="container">
+
+						@foreach (var item in Model.combinedList)
+						{
+							<option hidden>Reports is here</option>
+							<option>@item</option>
+
+						}
+
+					</select>
 				}
-
-
-			</select>
+			</div>
 		</div>
-	</div>
+		<div class="container col-3 ">
+			<a asp-action="GetAllDatas" asp-controller="AzmoonTest" class="btn btn-danger mt-3">Back</a>
+		</div>
+		<div class="container col-3 ">
+			<button type="submit" class="btn btn-warning mt-3">Report</button>
+		</div>
+	</form>
 	<div class="container col-3 ">
-		<a asp-action="GetAllDatas" asp-controller="AzmoonTest" class="btn btn-danger mt-3">Back</a>
-	</div>
-	<div class="container col-3 ">
-		<a asp-action="PrintPdf" asp-controller="Reports" asp-route-data="@Model.combinedList" class="btn btn-warning mt-3">Report</a>
 		<a id="exportButton" class="btn btn-warning mt-3">Aspose Report</a>
 	</div>
 </body>

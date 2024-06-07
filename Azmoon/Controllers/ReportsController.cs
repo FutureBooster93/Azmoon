@@ -62,12 +62,11 @@ namespace Azmoon.Controllers
             //         ViewBag.tempdataPostalCode = TempData["PostalCode"] = selectedPostalCode;
             //         ViewBag.tempdataTel = TempData["Tel"] = selectedTel;
             //         ViewBag.tempdataEmail = TempData["Email"] = selectedEmail;
-            TempData["tle"] = VM.Title;
 
             return View(VM);
         }
 
-        public async Task<IActionResult> PrintPdf(List<string> data)
+        public async Task<IActionResult> PrintPdf(ReportsViewModel data)
         {
            
                 var LReportTitle = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["ReportTitle"];
@@ -77,10 +76,9 @@ namespace Azmoon.Controllers
 
                
                 //this LawyerCertificateStatistic table name should be in stimulsoft for reporting
-                report.RegData("AzmoonReports", data: data);
-
-            //ReportsViewModel model = new ReportsViewModel();
-            //report.Dictionary.Variables["Title"].Value =Convert.ToString( TempData["tle"]);
+                report.RegData("AzmoonReports", data: data.combinedList);
+			report.Dictionary.Variables.Add(new Stimulsoft.Report.Dictionary.StiVariable("Title", data.Title));
+			//ReportsViewModel model = new ReportsViewModel();
 
 
             //report.Dictionary.Variables["imgArm"].ValueObject = Stimulsoft.Base.Drawing.StiImageFromURL.LoadBitmap(Directory.GetCurrentDirectory() + "/wwwroot/images/Arm.png");
